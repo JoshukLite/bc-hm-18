@@ -10,8 +10,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import org.thief.dto.NasaPhoto;
 import org.thief.dto.NasaResponse;
 import org.thief.repository.dao.Camera;
-import org.thief.service.CameraService;
-import org.thief.service.PictureService;
 
 import java.net.URI;
 import java.util.Objects;
