@@ -21,10 +21,10 @@ public class StealService {
     private static final String URL_PARAM_SOL = "sol";
     private static final String URL_PARAM_API_KEY = "api_key";
 
-    private final RestTemplate restTemplate = new RestTemplate();
-
     private final CameraService cameraService;
     private final PictureService pictureService;
+
+    private final RestTemplate restTemplate;
 
     @Value("${thief.nasa-api-key}")
     private String apiKey;
