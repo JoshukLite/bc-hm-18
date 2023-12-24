@@ -31,17 +31,21 @@ public class StealService {
 
     @Transactional
     public void stealNasaData(int sol) {
+        NasaResponse nasaResponse = getNasaPhotos(sol);
+        for (NasaPhoto nasaPhoto : nasaResponse.getPhotos()) {
+            Camera camera = cameraService.findOrCreate(nasaPhoto.getCamera());
+            pictureService.createIfNotFound(camera, nasaPhoto);
+        }
+    }
+
+    private NasaResponse getNasaPhotos(int sol) {
         URI requestUri = UriComponentsBuilder.fromUriString(URL_BASE)
                 .queryParam(URL_PARAM_SOL, sol)
                 .queryParam(URL_PARAM_API_KEY, apiKey)
                 .build()
                 .toUri();
         ResponseEntity<NasaResponse> response = restTemplate.getForEntity(requestUri, NasaResponse.class);
-        NasaResponse nasaResponse = Objects.requireNonNull(response.getBody(),
+        return Objects.requireNonNull(response.getBody(),
                 "Nasa response is empty. URL - '%s', 'sol' parameter - '%d'".formatted(URL_BASE, sol));
-        for (NasaPhoto nasaPhoto : nasaResponse.getPhotos()) {
-            Camera camera = cameraService.findOrCreate(nasaPhoto.getCamera());
-            pictureService.createIfNotFound(camera, nasaPhoto);
-        }
     }
 }
