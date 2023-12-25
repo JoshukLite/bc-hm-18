@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 @Entity
 @Table(name = "pictures")
@@ -32,4 +33,17 @@ public class Picture {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "camera_id", nullable = false)
     private Camera camera;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Picture picture = (Picture) o;
+        return nasaId == picture.nasaId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nasaId);
+    }
 }

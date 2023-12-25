@@ -13,6 +13,7 @@ import lombok.Setter;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "cameras")
@@ -32,4 +33,17 @@ public class Camera {
     @OneToMany(mappedBy = "camera")
     @Setter(AccessLevel.NONE)
     private List<Picture> pictures;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Camera camera = (Camera) o;
+        return nasaId == camera.nasaId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nasaId);
+    }
 }
