@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+    <changeSet id="add-cameras-table" author="Vitalii Katkov">
+        <createTable tableName="cameras">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nasa_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="name" type="varchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueConstraintName="camera_created_at" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="add-pictures-table" author="Vitalii Katkov">
+        <createTable tableName="pictures">
+            <column name="id" autoIncrement="true" type="bigint">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nasa_id" type="bigint">
+                <constraints nullable="false" unique="true"/>
+            </column>
+            <column name="img_src" type="varchar(max)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="camera_id" type="bigint">
+                <constraints nullable="false" foreignKeyName="fk_picture_camera" referencedTableName="cameras" referencedColumnNames="id"/>
+            </column>
+            <column name="created_at" type="datetime" defaultValueConstraintName="picture_created_at" defaultValueComputed="now()">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
